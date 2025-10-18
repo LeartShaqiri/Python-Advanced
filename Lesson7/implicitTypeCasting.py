@@ -10,6 +10,8 @@ message = "I am " + str(age) + " years old"
 print(message)
 
 
+
+
 a = 5
 b = "3"
 result1 = a * int(b)
