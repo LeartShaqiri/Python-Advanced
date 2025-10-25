@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
 
-class Shape(ABC):
+class Shape(ABC):  # Abstract Base Class
     @abstractmethod
     def area(self):
         pass
 
+    @abstractmethod
+    def perimeter(self):
+        pass
 
 class Circle(Shape):
     def __init__(self, radius):
@@ -13,15 +16,23 @@ class Circle(Shape):
     def area(self):
         return 3.14 * self.radius * self.radius
 
-class Square ( Shape) :
-    def __init__(self, length):
+    def perimeter(self):
+        return 2 * 3.14 * self.radius
+
+class Rectangle(Shape):
+    def __init__(self, length, width):
         self.length = length
-        
-    def area (self) :
-        return self.length * self.length
+        self.width = width
 
+    def area(self):
+        return self.length * self.width
+
+    def perimeter(self):
+        return 2 * (self.length + self.width)
+
+# Creating objects of concrete subclasses
 circle = Circle(5)
-square = Square (8)
+rectangle = Rectangle(4, 6)
 
-print (Circle.area())   
-print (square.area())   
+print(f"Circle area: {circle.area()}")
+print(f"Rectangle perimeter: {rectangle.perimeter()}")
