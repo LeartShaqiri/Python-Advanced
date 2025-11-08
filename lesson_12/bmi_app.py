@@ -180,4 +180,4 @@ def collect_user_data():
 
 
 app.BMIapp
-app.run()
+app.run() 
