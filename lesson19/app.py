@@ -13,7 +13,7 @@ st.set_page_config(
 # -----------------------
 # Title
 # -----------------------
-st.title("📊 Lesson 19 – Modern Streamlit App")
+st.title(" Store Dara with Streamlit ")
 st.caption("Data input, filtering, and visualization using Streamlit")
 
 # -----------------------
