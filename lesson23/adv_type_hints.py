@@ -33,6 +33,6 @@ print(get_data("hihi"))
 
 
 def get_go(go:List[int]) -> int:
-    return sum (go)
+    return sum (go )
 
 print(get_go([1,2,3]))
