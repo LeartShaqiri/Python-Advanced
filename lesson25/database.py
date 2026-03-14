@@ -21,7 +21,7 @@ def create_tables():
     connection.commit()
     connection.close()
 
-create_table()
+
 
 def add_movie(movie: MovieCreate) -> int:
     connection = create_conntection()
@@ -64,3 +64,13 @@ def update_movie(movie_id: int, movie: MovieCreate) -> bool:
     updated = cursor.rowcount > 0
     connection.close()
     return updated
+
+
+def delete_movie(movie_id: int) -> bool:
+    connection = create_conntection()
+    cursor = connection.cursor()
+    cursor.execute ('delete from movies where id = ?', (movie_id))
+    connection.commit()
+    connection.close()
+    return delete_movie > 0     
+
