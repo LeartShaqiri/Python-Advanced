@@ -7,5 +7,6 @@ class MovieCreate(BaseModel):
 
 
 class Movies(MovieCreate):
-    id: int    
+    id: int
+    
 
