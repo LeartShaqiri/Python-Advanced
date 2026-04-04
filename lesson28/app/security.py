@@ -1,26 +1,31 @@
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.security import APIKeyHeader
 from dotenv import load_dotenv
 import os
+
 load_dotenv()
 
-API_KEY_NAME = "api_key"
+API_KEY_NAME = "api-key"
 
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
 
-def get_api_key(api_key: str = Depends(api_key_header)):
-    allowed_api_key = os.getenv("API_KEY", "").split(",")
 
-    print("Allowed API Keys:", api_key)
+def get_api_key(api_key: str = Depends(api_key_header)):
+    allowed_api_key = os.getenv("API_KEYS", "").split(", ")
+    allowed_api_key = [
+        key.strip().strip("'").strip('"')
+        for key in allowed_api_key
+        if key.strip()
+    ]
+
     print("Received API Key:", api_key)
+    print("Allowed API Key:", allowed_api_key)
 
 
     if api_key not in allowed_api_key:
+        print("API key is invalid.")
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Could not validate API key",
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API Key."
         )
-    print("API Key is valid")
+    print("API Key is valid.")
     return api_key
-
-      

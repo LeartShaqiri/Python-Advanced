@@ -1,45 +1,37 @@
-import select
 from typing import List, Optional
 import sqlite3
-from fastapi import APIRouter, HTTPException
 from models import Item
 from database import get_db_connection
 
-
-def create_item(item:Item) -> Item:
+def create_item(item: Item) -> Item:
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO items (name, description) VALUES (?, ?)", (item.name, item.description))
+    cursor.execute("insert into items (name, description) values (?, ?)", (item.name, item.description))
     conn.commit()
     item.id = cursor.lastrowid
     conn.close()
     return item
 
-
 def get_items() -> List[Item]:
     conn = get_db_connection()
     cursor = conn.cursor()
-    items= cursor.execute("SELECT * FROM items").fetchall()
+    items = cursor.execute("select * from items").fetchall()
     conn.close()
     return [Item(**dict(item)) for item in items]
-    
-
 
 def get_item(item_id: int) -> Optional[Item]:
     conn = get_db_connection()
     cursor = conn.cursor()
-    item = cursor.execute("SELECT * FROM items WHERE id = ?", (item_id,)).fetchone()
+    item = cursor.execute("select * from items where id = ?", (item_id,)).fetchone()
     conn.close()
     if item is None:
         return None
     return Item(**dict(item))
 
-
-
-def update_item(item_id: int, item: Item) -> Optional[Item]:
+def update_item (item_id: int, item: Item) -> Optional[Item]:
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE items SET name = ?, description = ? WHERE id = ?", (item.name, item.description, item_id))
+    cursor.execute("update items set name = ?, description = ? where id = ?", (item.name, item.description, item_id))
     conn.commit()
     updated = cursor.rowcount
     conn.close()
@@ -48,13 +40,11 @@ def update_item(item_id: int, item: Item) -> Optional[Item]:
     item.id = item_id
     return item
 
-
 def delete_item(item_id: int) -> bool:
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM items WHERE id = ?", (item_id,))
+    cursor.execute("delete from items where id = ?", (item_id,))
     conn.commit()
     deleted = cursor.rowcount
     conn.close()
     return deleted > 0
-          

@@ -9,16 +9,15 @@ app = FastAPI()
 
 init_db()
 
-app.post("items/", response_model=Item)
+@app.post("/items/", response_model=Item)
 def create_new_item(item: Item, api_key: str = Depends(get_api_key)):
     return create_item(item)
-
 
 @app.get("/items/", response_model=List[Item])
 def read_items(api_key: str = Depends(get_api_key)):
     return get_items()
 
-@app.get("/item/{item_id}", response_model=Item)
+@app.get("/items/{item_id}", response_model=Item)
 def read_item(item_id: int, api_key: str = Depends(get_api_key)):
     item = get_item(item_id)
     if item is None:
@@ -32,11 +31,9 @@ def update_existing_item(item_id: int, item: Item, api_key: str = Depends(get_ap
         raise HTTPException(status_code=404, detail="Item not found")
     return updated_item
 
-
-
 @app.delete("/items/{item_id}")
 def delete_existing_item(item_id: int, api_key: str = Depends(get_api_key)):
-    deleted = delete_item(item_id)
-    if not deleted:
+    result = delete_item(item_id)
+    if not result:
         raise HTTPException(status_code=404, detail="Item not found")
     return {"detail": "Item deleted successfully"}
