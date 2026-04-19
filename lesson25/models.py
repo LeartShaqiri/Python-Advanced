@@ -9,4 +9,6 @@ class MovieCreate(BaseModel):
 class Movies(MovieCreate):
     id: int
     
-
+class MoveUpdate(BaseModel):
+    title: str
+    
